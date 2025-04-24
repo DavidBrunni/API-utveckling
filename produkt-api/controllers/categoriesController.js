@@ -8,6 +8,15 @@ exports.getAllCategories = (req, res) => {
   });
 };
 
+// Hämta alla produkter i en viss kategori
+exports.getProductsByCategory = (req, res) => {
+  const { id } = req.params; 
+  db.query('SELECT * FROM products WHERE category_id = ?', [id], (err, results) => {
+    if (err) return res.status(500).send(err);
+    res.json(results); 
+  });
+};
+
 // Skapa ny kategori
 exports.createCategory = (req, res) => {
   const { name } = req.body;
@@ -36,11 +45,3 @@ exports.deleteCategory = (req, res) => {
   });
 };
 
-// Hämta alla produkter i en viss kategori
-exports.getProductsByCategory = (req, res) => {
-  const { id } = req.params;
-  db.query('SELECT * FROM products WHERE category_id = ?', [id], (err, results) => {
-    if (err) return res.status(500).send(err);
-    res.json(results);
-  });
-};

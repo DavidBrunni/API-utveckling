@@ -8,6 +8,18 @@ exports.getAllProducts = (req, res) => {
   });
 };
 
+// Hämta en specifik produkt
+exports.getProductById = (req, res) => {
+    const { id } = req.params;  
+    db.query('SELECT * FROM products WHERE id = ?', [id], (err, results) => {
+      if (err) return res.status(500).send(err);
+      if (results.length === 0) {
+        return res.status(404).json({ message: 'Produkt inte funnen' });
+      }
+      res.json(results[0]); 
+    });
+  };
+
 // Skapa en ny produkt
 exports.createProduct = (req, res) => {
   const { name, category_id, price } = req.body;
